@@ -1,0 +1,118 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ApiGateway (http://localhost:5000)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/ApiGateway/bin/Debug/net9.0/HireHub.ApiGateway.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/ApiGateway",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5000"
+      }
+    },
+    {
+      "name": "AuthService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/AuthService/AuthService.Api/bin/Debug/net9.0/AuthService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Services/AuthService/AuthService.Api",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5001"
+      }
+    },
+    {
+      "name": "UserService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/UserService/UserService.Api/bin/Debug/net9.0/UserService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Services/UserService/UserService.Api",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5002"
+      }
+    },
+    {
+      "name": "JobService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/JobService/JobService.Api/bin/Debug/net9.0/JobService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Services/JobService/JobService.Api",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5003"
+      }
+    },
+    {
+      "name": "ApplicationService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/ApplicationService/ApplicationService.Api/bin/Debug/net9.0/ApplicationService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Services/ApplicationService/ApplicationService.Api",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5004"
+      }
+    },
+    {
+      "name": "MessagingService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/MessagingService/MessagingService.Api/bin/Debug/net9.0/MessagingService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Services/MessagingService/MessagingService.Api",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5005"
+      }
+    },
+    {
+      "name": "NotificationService.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/NotificationService/NotificationService.Api/bin/Debug/net9.0/NotificationService.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Services/NotificationService/NotificationService.Api",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5006"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "HireHub (all APIs + gateway)",
+      "configurations": [
+        "AuthService.Api",
+        "UserService.Api",
+        "JobService.Api",
+        "ApplicationService.Api",
+        "MessagingService.Api",
+        "NotificationService.Api",
+        "ApiGateway (http://localhost:5000)"
+      ],
+      "stopAll": true
+    }
+  ]
+}

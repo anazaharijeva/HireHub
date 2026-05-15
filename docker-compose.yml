@@ -1,0 +1,131 @@
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Your_password123"
+    ports:
+      - "1433:1433"
+    volumes:
+      - hirehub_sql:/var/opt/mssql
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  auth:
+    build:
+      context: .
+      dockerfile: docker/auth.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__AuthDb: "Server=sql,1433;Database=HireHub_Auth;User Id=sa;Password=Your_password123;TrustServerCertificate=True"
+      RabbitMq__HostName: rabbitmq
+      Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
+    depends_on:
+      - sql
+      - rabbitmq
+
+  user:
+    build:
+      context: .
+      dockerfile: docker/user.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__UserDb: "Server=sql,1433;Database=HireHub_User;User Id=sa;Password=Your_password123;TrustServerCertificate=True"
+      RabbitMq__HostName: rabbitmq
+      Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
+    depends_on:
+      - sql
+      - rabbitmq
+
+  job:
+    build:
+      context: .
+      dockerfile: docker/job.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__JobDb: "Server=sql,1433;Database=HireHub_Job;User Id=sa;Password=Your_password123;TrustServerCertificate=True"
+      RabbitMq__HostName: rabbitmq
+      Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
+    depends_on:
+      - sql
+      - rabbitmq
+
+  application:
+    build:
+      context: .
+      dockerfile: docker/application.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__ApplicationDb: "Server=sql,1433;Database=HireHub_Application;User Id=sa;Password=Your_password123;TrustServerCertificate=True"
+      RabbitMq__HostName: rabbitmq
+      Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
+    depends_on:
+      - sql
+      - rabbitmq
+
+  messaging:
+    build:
+      context: .
+      dockerfile: docker/messaging.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__MessagingDb: "Server=sql,1433;Database=HireHub_Messaging;User Id=sa;Password=Your_password123;TrustServerCertificate=True"
+      RabbitMq__HostName: rabbitmq
+      Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
+    depends_on:
+      - sql
+      - rabbitmq
+
+  notification:
+    build:
+      context: .
+      dockerfile: docker/notification.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__NotificationDb: "Server=sql,1433;Database=HireHub_Notification;User Id=sa;Password=Your_password123;TrustServerCertificate=True"
+      RabbitMq__HostName: rabbitmq
+      Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
+    depends_on:
+      - sql
+      - rabbitmq
+
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/gateway.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+    ports:
+      - "5000:8080"
+    depends_on:
+      - auth
+      - user
+      - job
+      - application
+      - messaging
+      - notification
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:5000
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway
+
+volumes:
+  hirehub_sql:

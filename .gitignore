@@ -1,0 +1,32 @@
+# Build
+**/bin/
+**/obj/
+**/out/
+
+# .NET
+*.user
+*.userosscache
+*.suo
+*.userprefs
+.vs/
+
+# Node / Frontend
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.env
+*.local
+
+# Logs
+*.log
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+
+# Docker (optional local overrides)
+.env
+.env.*
+
+# Cursor / agent assets (not part of the app)
+assets/

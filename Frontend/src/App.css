@@ -1,0 +1,70 @@
+.hirehub {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  font-family: system-ui, sans-serif;
+}
+
+.hirehub h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+}
+
+.tagline {
+  margin: 0 0 1rem;
+  color: #444;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.card label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.card input,
+.card select {
+  padding: 0.45rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.card button {
+  margin-top: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  border: none;
+  background: #1a56db;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.card button:hover {
+  background: #1547b8;
+}
+
+.result {
+  white-space: pre-wrap;
+  font-size: 0.8rem;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  padding: 0.5rem;
+  border-radius: 4px;
+}

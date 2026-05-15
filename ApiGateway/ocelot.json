@@ -1,0 +1,77 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "auth", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/profiles/candidates/search",
+      "UpstreamHttpMethod": [ "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/profiles/candidates/search",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "user", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/profiles/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/profiles/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "user", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/jobs",
+      "UpstreamHttpMethod": [ "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/jobs",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "job", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/jobs/categories",
+      "UpstreamHttpMethod": [ "GET", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/jobs/categories",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "job", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/jobs/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/jobs/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "job", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/applications",
+      "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/applications",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "application", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/applications/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/applications/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "application", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/messages/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/messages/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "messaging", "Port": 8080 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/notifications/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/notifications/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "notification", "Port": 8080 } ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
+}
