@@ -24,9 +24,12 @@ Frontend/.env
 Thumbs.db
 .idea/
 
-# Docker (optional local overrides)
+# Docker / secrets (keep .env.example)
 .env
-.env.*
+.env.local
+.env.*.local
+!.env.example
+!**/.env.example
 
 # Cursor / agent assets (not part of the app)
 assets/
