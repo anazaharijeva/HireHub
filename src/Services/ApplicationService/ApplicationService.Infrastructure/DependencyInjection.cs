@@ -1,6 +1,7 @@
 using ApplicationService.Application.Abstractions;
 using ApplicationService.Infrastructure.Messaging;
 using ApplicationService.Infrastructure.Persistence;
+using HireHub.ApiCommon;
 using HireHub.Contracts.Messaging;
 using HireHub.EventBus;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,6 @@ public static class DependencyInjection
     {
         using var scope = sp.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        await db.Database.EnsureCreatedAsync(ct).ConfigureAwait(false);
+        await db.Database.EnsureCreatedSafeAsync(ct).ConfigureAwait(false);
     }
 }

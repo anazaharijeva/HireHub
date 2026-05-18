@@ -1,3 +1,4 @@
+using HireHub.ApiCommon;
 using HireHub.EventBus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,6 @@ public static class DependencyInjection
     {
         using var scope = sp.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<NotificationDbContext>();
-        await db.Database.EnsureCreatedAsync(ct).ConfigureAwait(false);
+        await db.Database.EnsureCreatedSafeAsync(ct).ConfigureAwait(false);
     }
 }

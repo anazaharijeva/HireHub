@@ -33,3 +33,6 @@ Thumbs.db
 
 # Cursor / agent assets (not part of the app)
 assets/
+
+# Interview prep notes (local only)
+docs/

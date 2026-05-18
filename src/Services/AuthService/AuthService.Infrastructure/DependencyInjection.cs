@@ -4,6 +4,7 @@ using AuthService.Application.Security;
 using AuthService.Application.Services;
 using AuthService.Infrastructure.Messaging;
 using AuthService.Infrastructure.Persistence;
+using HireHub.ApiCommon;
 using HireHub.Contracts.Messaging;
 using HireHub.EventBus;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,7 @@ public static class DependencyInjection
     {
         using var scope = sp.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-        await db.Database.EnsureCreatedAsync(ct).ConfigureAwait(false);
+        await db.Database.EnsureCreatedSafeAsync(ct).ConfigureAwait(false);
         if (await db.Set<AuthService.Domain.Entities.AppRole>().AnyAsync(ct).ConfigureAwait(false))
             return;
 

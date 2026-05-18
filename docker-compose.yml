@@ -8,17 +8,29 @@ services:
       - "1433:1433"
     volumes:
       - hirehub_sql:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/1433' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   auth:
     build:
       context: .
       dockerfile: docker/auth.Dockerfile
+    restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
@@ -26,13 +38,16 @@ services:
       RabbitMq__HostName: rabbitmq
       Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
     depends_on:
-      - sql
-      - rabbitmq
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   user:
     build:
       context: .
       dockerfile: docker/user.Dockerfile
+    restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
@@ -40,13 +55,16 @@ services:
       RabbitMq__HostName: rabbitmq
       Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
     depends_on:
-      - sql
-      - rabbitmq
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   job:
     build:
       context: .
       dockerfile: docker/job.Dockerfile
+    restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
@@ -54,13 +72,16 @@ services:
       RabbitMq__HostName: rabbitmq
       Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
     depends_on:
-      - sql
-      - rabbitmq
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   application:
     build:
       context: .
       dockerfile: docker/application.Dockerfile
+    restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
@@ -68,13 +89,16 @@ services:
       RabbitMq__HostName: rabbitmq
       Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
     depends_on:
-      - sql
-      - rabbitmq
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   messaging:
     build:
       context: .
       dockerfile: docker/messaging.Dockerfile
+    restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
@@ -82,13 +106,16 @@ services:
       RabbitMq__HostName: rabbitmq
       Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
     depends_on:
-      - sql
-      - rabbitmq
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   notification:
     build:
       context: .
       dockerfile: docker/notification.Dockerfile
+    restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
@@ -96,13 +123,16 @@ services:
       RabbitMq__HostName: rabbitmq
       Jwt__SigningKey: "HireHub_Dev_SigningKey_ChangeMe_32chars!!"
     depends_on:
-      - sql
-      - rabbitmq
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   gateway:
     build:
       context: .
       dockerfile: docker/gateway.Dockerfile
+    restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080

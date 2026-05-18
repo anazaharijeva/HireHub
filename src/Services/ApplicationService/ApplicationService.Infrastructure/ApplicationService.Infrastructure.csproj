@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ApplicationService.Application\ApplicationService.Application.csproj" />
     <ProjectReference Include="..\ApplicationService.Domain\ApplicationService.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\HireHub.ApiCommon\HireHub.ApiCommon.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\HireHub.Contracts\HireHub.Contracts.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\HireHub.EventBus\HireHub.EventBus.csproj" />
   </ItemGroup>

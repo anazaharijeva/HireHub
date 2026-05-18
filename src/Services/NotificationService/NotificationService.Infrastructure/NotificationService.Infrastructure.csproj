@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NotificationService.Application\NotificationService.Application.csproj" />
     <ProjectReference Include="..\NotificationService.Domain\NotificationService.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\HireHub.ApiCommon\HireHub.ApiCommon.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\HireHub.Contracts\HireHub.Contracts.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\HireHub.EventBus\HireHub.EventBus.csproj" />
   </ItemGroup>

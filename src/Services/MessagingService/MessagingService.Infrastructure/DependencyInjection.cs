@@ -1,3 +1,4 @@
+using HireHub.ApiCommon;
 using HireHub.Contracts.Messaging;
 using HireHub.EventBus;
 using MessagingService.Infrastructure.Messaging;
@@ -27,6 +28,6 @@ public static class DependencyInjection
     {
         using var scope = sp.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MessagingDbContext>();
-        await db.Database.EnsureCreatedAsync(ct).ConfigureAwait(false);
+        await db.Database.EnsureCreatedSafeAsync(ct).ConfigureAwait(false);
     }
 }

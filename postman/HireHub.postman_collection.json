@@ -1,0 +1,338 @@
+{
+  "info": {
+    "name": "HireHub API",
+    "description": "HireHub microservices via API Gateway (localhost:5000).\n\nSetup:\n1. docker compose up\n2. Import this collection + HireHub-Local environment\n3. Run \"Register Candidate\" or \"Login Candidate\"\n4. Copy accessToken into environment variable `token`\n5. Run other requests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Candidate",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"candidate@hirehub.test\",\n  \"password\": \"Test1234!\",\n  \"role\": \"Candidate\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/register",
+            "description": "200 → copy tokens.accessToken to environment `token`"
+          }
+        },
+        {
+          "name": "Login Candidate",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"candidate@hirehub.test\",\n  \"password\": \"Test1234!\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login",
+            "description": "200 → copy tokens.accessToken to environment `token`"
+          }
+        },
+        {
+          "name": "Register Recruiter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"recruiter@hirehub.test\",\n  \"password\": \"Test1234!\",\n  \"role\": \"Recruiter\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/register",
+            "description": "200 → copy tokens.accessToken to `tokenRecruiter` and user.id to `recruiterUserId`"
+          }
+        },
+        {
+          "name": "Login Recruiter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"recruiter@hirehub.test\",\n  \"password\": \"Test1234!\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login",
+            "description": "200 → copy tokens.accessToken to `tokenRecruiter`"
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"PASTE_REFRESH_TOKEN_HERE\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/refresh"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profiles (Candidate)",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "PUT candidate/me",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Ana Test\",\n  \"skills\": \"C#, .NET, SQL\",\n  \"experience\": \"1 year backend\",\n  \"education\": \"FINKI\",\n  \"cvUrl\": null,\n  \"linkedInUrl\": null,\n  \"gitHubUrl\": null\n}"
+            },
+            "url": "{{baseUrl}}/api/profiles/candidate/me"
+          }
+        },
+        {
+          "name": "GET candidate/me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/profiles/candidate/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profiles (Recruiter)",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{tokenRecruiter}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "PUT recruiter/me",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"HireHub DOO\",\n  \"position\": \"HR Manager\",\n  \"companyDescription\": \"IT recruitment\",\n  \"companyLogoUrl\": null\n}"
+            },
+            "url": "{{baseUrl}}/api/profiles/recruiter/me"
+          }
+        },
+        {
+          "name": "GET recruiter/me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/profiles/recruiter/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "GET jobs (public)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/jobs?page=1&pageSize=10"
+          }
+        },
+        {
+          "name": "GET categories (public)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/jobs/categories"
+          }
+        },
+        {
+          "name": "POST create job (Recruiter)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenRecruiter}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \".NET Developer\",\n  \"description\": \"Backend microservices with ASP.NET Core\",\n  \"requirements\": \"C#, Docker, SQL Server\",\n  \"salaryMin\": 80000,\n  \"salaryMax\": 120000,\n  \"location\": \"Skopje\",\n  \"employmentType\": 0,\n  \"companyName\": \"HireHub DOO\",\n  \"categoryId\": 1\n}"
+            },
+            "url": "{{baseUrl}}/api/jobs",
+            "description": "employmentType: 0=FullTime, 1=PartTime, 2=Remote. Copy response `id` to environment `jobId`"
+          }
+        },
+        {
+          "name": "GET job by id (public)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/jobs/{{jobId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Applications",
+      "item": [
+        {
+          "name": "POST apply (Candidate)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobId\": \"{{jobId}}\",\n  \"recruiterUserId\": \"{{recruiterUserId}}\",\n  \"coverLetter\": \"I would like to apply for this position.\"\n}"
+            },
+            "url": "{{baseUrl}}/api/applications"
+          }
+        },
+        {
+          "name": "GET my applications (Candidate)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/applications/mine"
+          }
+        },
+        {
+          "name": "GET recruiter applications",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenRecruiter}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/applications/recruiter/mine"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "GET mine",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notifications/mine"
+          }
+        }
+      ]
+    }
+  ]
+}

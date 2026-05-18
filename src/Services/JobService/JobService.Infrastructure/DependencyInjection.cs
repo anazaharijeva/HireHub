@@ -1,3 +1,4 @@
+using HireHub.ApiCommon;
 using HireHub.Contracts.Messaging;
 using HireHub.EventBus;
 using JobService.Application.Abstractions;
@@ -30,7 +31,7 @@ public static class DependencyInjection
     {
         using var scope = sp.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<JobDbContext>();
-        await db.Database.EnsureCreatedAsync(ct).ConfigureAwait(false);
+        await db.Database.EnsureCreatedSafeAsync(ct).ConfigureAwait(false);
         if (await db.Set<JobService.Domain.Entities.JobCategory>().AnyAsync(ct).ConfigureAwait(false))
             return;
 
